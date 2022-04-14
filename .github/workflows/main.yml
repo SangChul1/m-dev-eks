@@ -26,3 +26,12 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           cache: 'gradle'
+          
+      - name: chmod gradle
+        run: chmod -X ./gradlew
+        
+      - name: build
+        run: gradle build
+        
+      - name: build check
+        run: ls ./build/libs        

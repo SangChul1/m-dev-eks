@@ -85,7 +85,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           source: ./build/libs
-          dest: s3://${{ secrets.AWS_BUCKET }}/backup/{{ env.DATE2 }}.war
+          dest: s3://${{ secrets.AWS_BUCKET }}
           flags: --recursive
 
       

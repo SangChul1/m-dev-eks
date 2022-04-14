@@ -76,7 +76,7 @@ jobs:
           mv ./build/libs/*.war ./build/libs/$DATE.war
         
       - name: upload backup file to s3  
-        run: aws s3 cp --region ${{ secrets.AWS_REGION }} --acl private ./build/libs/*.war s3://${{ secrets.AWS_BUCKET }}
+        run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./build/libs/*.war s3://${{ secrets.AWS_BUCKET }}
         
         
         

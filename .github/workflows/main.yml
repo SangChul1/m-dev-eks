@@ -61,6 +61,20 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1
+          aws-region: ${{ secrets.AWS_REGION }}
+          
+      - name: was-deploy-restart
+        run: kubectl rollout restart deployment/tomcat-was
+        
+      - name: change file name
+        run: |
+          DATE=$(date +%y-%m-%d-%H:%M)
+          mv ./build/libs/*.war ./build/libs/$DATE.war
+        
+      - name: upload to s3  
+        run: aws s3 cp --region ${{ secrets.AWS_REGION }} --acl private ./build/libs/*.war s3://parkstorage
+        
+        
+        
 
           

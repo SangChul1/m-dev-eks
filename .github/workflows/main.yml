@@ -62,10 +62,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          cluster_name: park-1
+          cluster_name: ${{ secrets.AWS_CLUSTER_NAME }}
           
       - name: update kubeconfig
-        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name park-1
+        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.AWS_CLUSTER_NAME }}
         
       - name: was-deploy-restart
         run: kubectl rollout restart deployment/tomcat-was
@@ -75,8 +75,8 @@ jobs:
           DATE=$(date +%y-%m-%d-%H:%M)
           mv ./build/libs/*.war ./build/libs/$DATE.war
         
-      - name: upload to s3  
-        run: aws s3 cp --region ${{ secrets.AWS_REGION }} --acl private ./build/libs/*.war s3://parkstorage
+      - name: upload backup file to s3  
+        run: aws s3 cp --region ${{ secrets.AWS_REGION }} --acl private ./build/libs/*.war s3://${{ secrets.AWS_BUCKET }}
         
         
         

@@ -20,6 +20,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
+      - name: Set env
+        run: echo "DATE=$(date +%y-%m-%d-%H:%M)" >> $GITHUB_ENV
+      
       - name: install jdk
         uses: actions/setup-java@v3
         with:
@@ -71,14 +74,13 @@ jobs:
         run: kubectl rollout restart deployment/tomcat-was
         
       - name: change file name
-        run: |
-          DATE=$(date +%y-%m-%d-%H:%M)
-          mv ./build/libs/*.war ./build/libs/$DATE.war
-        
+        run: mv ./build/libs/*.war ./build/libs/${{ env.DATE }}.war
+
       - name: upload backup file to s3  
         run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./build/libs/*.war s3://${{ secrets.AWS_BUCKET }}
         
-        
+
+      
         
 
           

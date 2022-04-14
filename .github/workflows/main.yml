@@ -80,8 +80,13 @@ jobs:
         run: mv ./build/libs/*.war ./build/libs/${{ env.DATE }}.war
 
       - name: upload backup file to s3  
-        run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./build/libs/*.war s3://${{ secrets.AWS_BUCKET }}
-    
+        uses: prewk/s3-cp-action@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          source: ./build/libs
+          dest: s3://${{ secrets.AWS_BUCKET }}/backup/{{ env.DATE2 }}
+          flags: --recursive
 
       
         
